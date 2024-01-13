@@ -1,14 +1,17 @@
-import mongoose from "mongoose"
-import 'dotenv/config'
+import express, { urlencoded } from 'express'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
+const app = express()
+app.use(cors({
+  origin : process.env.CORS_ORIGIN , 
+  credentials : true,
+}))
+app.use(express.json({
+  limit: "16kb," // Maximum request body size. Change to a suitable amount
+}))
+app.use(urlencoded({extended : true , limit : '16kb'}))
+app.use(express.static('public'))
+app.use(cookieParser())
 
-
-const connectDB = async() =>{
-  try{
-      const connectionInstance = await mongoose.connect(`${process.env.DATABASE_URI}/${'videotube'}`);
-      console.log(connectionInstance);
-  }catch(error){
-      console.log(`error encounterd  : ${error}`)
-    }
-}
-connectDB();
+export { app }
