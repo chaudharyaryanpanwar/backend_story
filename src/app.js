@@ -8,7 +8,7 @@ app.use(cors({
   credentials : true,
 }))
 app.use(express.json({
-  limit: "16kb," // Maximum request body size. Change to a suitable amount
+  // limit: "16kb," // Maximum request body size. Change to a suitable amount
 }))
 app.use(urlencoded({extended : true , limit : '16kb'}))
 app.use(express.static('public'))
