@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { registerUser } from '../controllers/user.controller.js';
+import { registerUser , loginUser, logoutUser } from '../controllers/user.controller.js';
 import { upload } from './../middlewares/multer.middleware.js'
-import { apiError } from './../utils/apiError.js'
+import { ApiError } from './../utils/apiError.js'
+import { verifyJWT } from '../middlewares/auth.middleware.js';
 const router = Router()
 
 router.route('/register').post(
@@ -11,13 +12,17 @@ router.route('/register').post(
       maxCount : 1
     } ,
     {
-      name : 'cover-image' , 
+      name : 'coverImage' , 
       maxCount : 1 
     }
   ]),
   registerUser
   )
  //http://localhost:3000/users/register (/api/v1/users)
-router.route('/login') //http://localhost:3000/users/login (/api/v1/users)
+// router.route('/login') //http://localhost:3000/users/login (/api/v1/users)
+
+
+router.route('/login').post(loginUser)
+router.route('/logout').post(verifyJWT , logoutUser)
 
 export default router 
